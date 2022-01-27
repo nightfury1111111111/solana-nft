@@ -1,0 +1,372 @@
+{
+  "version": "0.0.0",
+  "name": "doorman",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "whitelist",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorityMintAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintTokenVault",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "mintTokenVaultBump",
+          "type": "u8"
+        },
+        {
+          "name": "numTokens",
+          "type": "u64"
+        },
+        {
+          "name": "costInLamports",
+          "type": "u64"
+        },
+        {
+          "name": "goLiveDate",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "addMintTokens",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorityMintAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintTokenVault",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "numTokens",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "addWhitelistAddresses",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelist",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "addresses",
+          "type": {
+            "vec": "publicKey"
+          }
+        }
+      ]
+    },
+    {
+      "name": "resetWhitelistCounter",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateConfig",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "costInLamports",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "goLiveDate",
+          "type": {
+            "option": "i64"
+          }
+        },
+        {
+          "name": "on",
+          "type": {
+            "option": "bool"
+          }
+        }
+      ]
+    },
+    {
+      "name": "purchaseMintToken",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "whitelist",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintTokenVaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payerMintAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "whitelistAddressIndex",
+          "type": "u16"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Whitelist",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "addresses",
+            "type": {
+              "array": [
+                "publicKey",
+                500
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Config",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "whitelistOn",
+            "type": "bool"
+          },
+          {
+            "name": "costInLamports",
+            "type": "u64"
+          },
+          {
+            "name": "goLiveDate",
+            "type": "i64"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "whitelist",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "mintTokenVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "mintTokenVaultBump",
+            "type": "u8"
+          },
+          {
+            "name": "counter",
+            "type": "u16"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 300,
+      "name": "NotEnoughSOL",
+      "msg": "Not enough SOL to pay for the mint token"
+    },
+    {
+      "code": 301,
+      "name": "WrongTreasury",
+      "msg": "Wrong treasury"
+    },
+    {
+      "code": 302,
+      "name": "WrongTokenVault",
+      "msg": "Wrong token vault"
+    },
+    {
+      "code": 303,
+      "name": "NotEnoughMintTokens",
+      "msg": "No mint tokens left"
+    },
+    {
+      "code": 304,
+      "name": "DoormanNotLiveYet",
+      "msg": "Doorman not live yet"
+    },
+    {
+      "code": 305,
+      "name": "NotEnoughSpace",
+      "msg": "Not enough space left in whitelist!"
+    },
+    {
+      "code": 306,
+      "name": "WrongWhitelist",
+      "msg": "Wrong whitelist"
+    },
+    {
+      "code": 307,
+      "name": "WhitelistAddressIndexOutOfRange",
+      "msg": "Whitelist address index out of range"
+    },
+    {
+      "code": 308,
+      "name": "WhitelistAddressNotFound",
+      "msg": "Whitelisted address not found at given index"
+    }
+  ],
+  "metadata": {
+    "address": "D8bTW1sgKaSki1TBUwxarPySLp3TNVgB2bwRVbbTLYeV"
+  }
+}
